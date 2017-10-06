@@ -368,3 +368,60 @@ def str_divide(num1, num2):
             out_str = str(qlist[0]) + "." + str(qlist[1:pos]) + "(" + str(qlist[pos:]) + ")"
 
         return out_str
+
+
+'''
+Given a matrix and (i,j) find the local max such that
+1) from i,j you can only move forward moves which allows 
+only 3 moves (i-i, j+1) : (i,j+1) : (i+1, j+1)
+'''
+
+l=[
+   [4,5,4,6], 
+   [2,6,4,9], 
+   [8,7,3,6], 
+   [9,9,9,9], 
+  ]
+
+v=[
+   [0,0,0,0], 
+   [0,0,0,0], 
+   [0,0,0,0], 
+   [0,0,0,0], 
+]
+
+'''
+l=[ 
+   [1, 2, 3],
+   [5, 3, 4]
+  ]
+
+v=[
+   [0, 0, 0],
+   [0, 0, 0]
+  ]
+
+'''
+mList=[]
+def process(si, sj, l, v, prevMin):
+   global mList
+   try:
+      if not v[si][sj]:
+         v[si][sj] = 1
+         if prevMin == -1:
+            prevMin = l[si][sj]
+         process(si-1, sj+1, l, v, min(prevMin, l[si][sj]))
+         mList.append(min(prevMin, l[si][sj]))
+         process(si,   sj+1, l, v, min(prevMin, l[si][sj]))
+         mList.append(min(prevMin, l[si][sj]))
+         process(si+1, sj+1, l, v, min(prevMin, l[si][sj]))
+         mList.append(min(prevMin, l[si][sj]))
+
+         print mList
+         return max(mList) 
+   except IndexError:
+       print "Exception %d:%d %s"%(si,sj, str(mList))
+       return None 
+   
+#print(process(0, 0, l, v, -1))
+
